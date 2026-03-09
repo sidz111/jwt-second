@@ -14,10 +14,11 @@ func GenerateJWT(username string, id uint) (string, error) {
 		"user_id":  id,
 		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(SECRET_KEY)
 	if err != nil {
-		return "no jwt", err
+		return "no token", err
 	}
 	return tokenString, nil
 }
