@@ -1,0 +1,23 @@
+package utils
+
+import (
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
+)
+
+var SECRET_KEY = []byte("supersecretkey")
+
+func GenerateJWT(username string, id uint) (string, error) {
+	claims := jwt.MapClaims{
+		"username": username,
+		"user_id":  id,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(SECRET_KEY)
+	if err != nil {
+		return "no jwt", err
+	}
+	return tokenString, nil
+}
